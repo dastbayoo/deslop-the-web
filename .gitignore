@@ -1,0 +1,4 @@
+node_modules/
+web-ext-artifacts/
+# third-party pages, downloaded by `npm run fixtures`
+test/fixtures/*.html

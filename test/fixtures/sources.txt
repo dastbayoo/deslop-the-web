@@ -1,0 +1,9 @@
+# Pages used by test/page.test.js. They are third-party content, so they are not
+# committed; `npm run fixtures` downloads them into this folder.
+# name                    url
+adrs.systems             https://adrs.systems/
+human-wikipedia          https://en.wikipedia.org/wiki/Suspension_bridge
+human-pg-greatwork       https://paulgraham.com/greatwork.html
+human-danluu             https://danluu.com/cocktail-ideas/
+human-austen             https://www.gutenberg.org/files/1342/1342-h/1342-h.htm
+human-codinghorror       https://blog.codinghorror.com/the-best-code-is-no-code-at-all/

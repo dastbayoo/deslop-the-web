@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Deslop the Web — settings</title>
+  <style>
+    body { font: 14px/1.5 system-ui, sans-serif; max-width: 760px; margin: 24px auto; padding: 0 16px; }
+    textarea { width: 100%; font: 13px/1.4 ui-monospace, Consolas, monospace; box-sizing: border-box; }
+    input[type=number] { width: 80px; }
+    .muted { color: #888; font-size: 13px; }
+    code { background: rgba(128,128,128,.15); padding: 0 3px; border-radius: 3px; }
+    details pre { max-height: 400px; overflow: auto; font-size: 12px; background: rgba(128,128,128,.1); padding: 8px; }
+    #saved { color: green; margin-left: 8px; }
+    @media (prefers-color-scheme: dark) { body { background: #1e1e1e; color: #ddd; } }
+  </style>
+</head>
+<body>
+  <h1>Deslop the Web — settings</h1>
+
+  <h2>Shared slop list</h2>
+  <p class="muted">
+    The list is loaded from this URL and refreshed every 6 hours. If it can't be reached, the last good copy is used,
+    and before the first download, the copy bundled with the extension. Leave the field empty to use only the bundled copy.
+  </p>
+  <p>
+    <input type="url" id="listUrl" style="width:100%" spellcheck="false">
+    <button id="resetUrl" type="button">Default URL</button>
+    <button id="refresh" type="button">Update now</button>
+  </p>
+  <p class="muted" id="listStatus"></p>
+
+  <h2>Custom slop phrases</h2>
+  <p class="muted">
+    These are only yours, added on top of the shared list, one per line. A plain phrase matches as whole words, case-insensitive, with a default weight of 3
+    (a single hit collapses the paragraph at "Balanced"). Set a weight with <code>phrase | 2</code>.
+    For a regex, use <code>/regex/ | 4</code>. Lines starting with <code>#</code> are comments.
+  </p>
+  <textarea id="customPhrases" rows="12" placeholder="# examples&#10;synergize our core competencies&#10;thought leader | 2&#10;/\bunleash(es|ing)? the\b/ | 3"></textarea>
+
+  <h2>Thresholds</h2>
+  <p>
+    <label>Skip paragraphs shorter than <input type="number" id="minWords" min="1"> words</label><br>
+    <label>Only act on pages with at least <input type="number" id="minPageWords" min="0"> words of paragraph text</label>
+  </p>
+
+  <h2>Whole-page warning</h2>
+  <p class="muted">
+    Thinly spread slop never trips the per-paragraph check, so the page is also judged as a whole.
+    For calibration, adrs.systems scores 9.3 points per 100 words and normal human writing scores about 0.1–0.2.
+  </p>
+  <p>
+    <label><input type="checkbox" id="pageBanner"> Show a big warning banner on pages that are mostly slop</label><br>
+    <label>Page limit: <input type="number" id="pageDensity" min="0.5" step="0.5"> slop points per 100 words</label><br>
+    <label>…or when at least <input type="number" id="pageRatio" min="5" max="100" step="5">% of paragraphs (min. 3) are collapsed</label>
+  </p>
+
+  <h2>Inline snips</h2>
+  <p class="muted">
+    Filler fragments such as ", always", ", verbatim" or ", exactly as it sits in the repository" are cut in place,
+    headings included, and replaced by a small ✂ button that reveals them. Single words ("quietly", "genuinely",
+    "Honestly,") are only cut in collapsed paragraphs and on pages that already look suspicious overall.
+  </p>
+  <p><label><input type="checkbox" id="inlineSnips"> Snip slop fragments inline</label></p>
+  <p class="muted">
+    Your own snips, one per line, same syntax as above (the weight is ignored). Include the leading comma or dash
+    you want gone, e.g. <code>/,\s*no notes(?=[.!])/</code>.
+  </p>
+  <textarea id="customSnips" rows="5" placeholder="/,\s*no notes(?=[.!])/&#10;/\s*—\s*and it shows(?=[.!])/"></textarea>
+
+  <h2>Disabled sites</h2>
+  <p class="muted">One hostname per line, e.g. <code>news.ycombinator.com</code>.</p>
+  <textarea id="disabledSites" rows="5"></textarea>
+
+  <p><button id="save">Save</button><span id="saved"></span></p>
+
+  <details>
+    <summary>Active list (<span id="builtinCount"></span>)</summary>
+    <pre id="builtin"></pre>
+  </details>
+
+  <script src="scorer.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

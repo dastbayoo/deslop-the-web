@@ -1,0 +1,28 @@
+{
+  "name": "deslop-the-web",
+  "version": "1.0.0",
+  "description": "Firefox extension that collapses AI-slop paragraphs",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "fixtures": "node test/fetch-fixtures.js",
+    "test": "node test/fetch-fixtures.js && node test/scorer.test.js && node test/background.test.js && node test/page.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jsdom": "^25.0.1"
+  },
+  "webExt": {
+    "ignoreFiles": [
+      "test",
+      "package.json",
+      "package-lock.json",
+      "README.md",
+      "web-ext-artifacts",
+      "CONTRIBUTING.md"
+    ]
+  }
+}

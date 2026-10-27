@@ -1,0 +1,204 @@
+## deslop-list v1
+# Shared slop list for the Deslop the Web Firefox extension.
+#
+# Format, one entry per line:
+#   [patterns]  weight | label | regex
+#   [snips]     scope | label | regex
+# Fields are separated by " | " (space, bar, space); the regex is everything after the
+# second separator, written raw (no escaping), compiled case-insensitive with the u flag.
+# Use ['’] for apostrophes, since sites mix straight and curly quotes.
+#
+# Pattern weights: 3+ near-certain slop (one hit collapses at default sensitivity),
+# 2 strong, 1 weak (common in human writing too, only counts in bulk).
+# Snip scopes: always = filler wherever it appears; sloppy = only in collapsed
+# paragraphs or on pages that look suspicious overall. A snip's match is exactly
+# the text that gets cut, so include the leading comma or dash.
+#
+# Before sending a change: npm test (checks slop pages are caught and human pages are not).
+
+[patterns]
+# --- Chatbot leakage -----------------------------------------------------
+6 | as an AI language model | \bas an ai(?: language)? model\b
+3 | I hope this helps | \bi hope (?:this|that) helps\b
+3 | I hope this email finds you well | \bi hope this (?:email|message) finds you well\b
+3 | Great question | \b(?:great|excellent|fantastic) question\b
+2 | Certainly! | (?:^|[.!?]\s+)(?:certainly|absolutely|of course)!
+3 | knowledge cutoff | \bknowledge cut-?off\b
+
+# --- Openers -------------------------------------------------------------
+4 | in today's fast-paced world | \bin today['’]s (?:fast-paced|digital|modern|ever-changing|ever-evolving|rapidly (?:evolving|changing)|hyper-connected|interconnected|competitive) (?:world|landscape|age|era|society|environment|market)\b
+2 | in an era of / where | \bin (?:an|this) (?:era|age) (?:of|where|defined by)\b
+3 | in the ever-evolving landscape | \b(?:ever-evolving|ever-changing|rapidly evolving|dynamic|evolving) (?:landscape|world|realm|terrain)\b
+2 | in the realm of | \b(?:in|into|within) the realm of\b
+1 | when it comes to | \bwhen it comes to\b
+2 | it's no secret that | \bit['’]s no secret that\b
+2 | picture this | \bpicture this\b
+2 | imagine a world where | \bimagine a world (?:where|in which)\b
+3 | In this article, we will explore | \bin this (?:article|post|blog post|guide|piece|essay),? (?:we|i)['’]?(?:ll| will| are going to)? ?(?:explore|delve|dive|discuss|unpack|take a (?:closer|deep) look)
+3 | look no further | \blook no further\b
+3 | whether you're a seasoned X or a beginner | \bwhether you['’]re an? (?:seasoned|experienced|veteran)\b[^.]{0,60}\bor (?:just|a|an)\b
+2 | buckle up | \bbuckle up\b
+
+# --- Delving and diving --------------------------------------------------
+2 | delve into | \bdelv(?:e|es|ed|ing)\b
+3 | let's dive in | \blet['’]s (?:dive|jump|get) (?:in|right in|into it|deeper)\b
+2 | dive deep into | \b(?:take a )?deep[- ]dive\b|\bdiv(?:e|ing) deep(?:er)? into\b
+3 | unpack | \blet['’]s unpack\b
+4 | embark on a journey | \bembark(?:s|ed|ing)? (?:on|upon) (?:a|an|this|your|the) [a-z -]{0,25}(?:journey|adventure|quest|voyage)\b
+3 | journey of self-discovery | \bjourney of (?:self-discovery|discovery|growth|transformation)\b
+3 | navigate the complexities | \bnavigat(?:e|es|ing) (?:the )?(?:complexities|intricacies|nuances|challenges|labyrinth|maze)\b
+3 | navigating the world of | \bnavigat(?:e|es|ing) the (?:complex |ever-changing |ever-evolving |intricate )?(?:world|landscape|waters|terrain) of\b
+
+# --- Purple vocabulary ---------------------------------------------------
+3 | rich tapestry | \btapestr(?:y|ies)\b
+3 | symphony of | \bsymphony of\b
+3 | intricate dance | \b(?:intricate|delicate|complex) (?:dance|interplay)\b
+3 | a beacon of | \ba beacon of\b
+3 | kaleidoscope of | \bkaleidoscope of\b
+2 | treasure trove | \btreasure trove\b
+3 | testament to | \b(?:a|is a|stands as a|serves as a) (?:true |living |powerful )?testament to\b
+2 | stands as a | \bstands as (?:a|an)\b
+3 | indelible mark | \bindelible (?:mark|imprint|impression)\b
+2 | nestled in the heart of | \bnestled (?:in|within|amid|among)\b
+1 | in the heart of | \bin the (?:very )?heart of\b
+1 | bustling | \bbustling\b
+1 | vibrant | \bvibrant\b
+2 | a myriad of | \b(?:a )?myriad (?:of )?\b
+2 | a plethora of | \ba plethora of\b
+2 | multifaceted | \bmultifaceted\b
+2 | intricacies | \bintricacies\b
+1 | intricate | \bintricate(?:ly)?\b
+2 | meticulous | \bmeticulous(?:ly)?\b
+3 | meticulously crafted | \b(?:meticulously|thoughtfully|carefully|expertly) (?:crafted|curated|designed)\b
+2 | unwavering | \bunwavering\b
+2 | commendable | \bcommendable\b
+1 | paramount | \bparamount\b
+1 | pivotal | \bpivotal\b
+1 | unparalleled | \bunparalleled\b
+1 | transformative | \btransformative\b
+1 | groundbreaking | \bgroundbreaking\b
+1 | cutting-edge | \bcutting[- ]edge\b
+1 | state-of-the-art | \bstate[- ]of[- ]the[- ]art\b
+1 | seamless | \bseamless(?:ly)?\b
+1 | robust | \brobust\b
+1 | leverage | \bleverag(?:e|es|ed|ing)\b
+2 | synergy | \bsynerg(?:y|ies|istic)\b
+2 | paradigm shift | \bparadigm shift\b
+2 | holistic approach | \bholistic (?:approach|view|perspective|understanding)\b
+2 | game-changer | \bgame[- ]?chang(?:er|ers|ing)\b
+1 | realm | \brealms?\b
+1 | landscape | \blandscape\b
+1 | showcase | \bshowcas(?:e|es|ed|ing)\b
+1 | boasts | \bboasts\b
+1 | embrace | \bembrac(?:e|es|ed|ing)\b
+1 | resonate | \bresonat(?:e|es|ed|ing) (?:with|deeply)\b
+1 | captivating | \bcaptivat(?:e|es|ing)\b
+1 | thought-provoking | \bthought-provoking\b
+2 | whispers of | \bwhispers? of\b
+1 | labyrinth | \blabyrinth(?:ine)?\b
+1 | spearhead | \bspearhead(?:s|ed|ing)?\b
+1 | bespoke | \bbespoke\b
+1 | elevate | \belevat(?:e|es|ed|ing)\b
+2 | elevate your | \belevate your\b
+1 | fast-paced | \bfast-paced\b
+
+# --- Filler hedges and signposting ---------------------------------------
+2 | it's important to note | \bit['’]s (?:important|crucial|essential|vital|worth) (?:to (?:note|remember|recognize|understand|consider)|noting)\b|\bit is (?:important|crucial|essential|vital|worth) (?:to (?:note|remember|recognize|understand|consider)|noting)\b
+2 | plays a crucial role | \bplay(?:s|ed|ing)? an? (?:crucial|pivotal|vital|key|significant|integral|instrumental) role\b
+2 | underscores the importance | \b(?:underscor|highlight|emphasiz|emphasis)(?:e|es|ed|ing)? the (?:importance|significance|need|value)\b
+2 | a stark reminder | \ba (?:stark|powerful|poignant|sobering|timely) reminder\b
+1 | shed light on | \bsh(?:ed|eds|edding) (?:some )?light on\b
+2 | pave the way | \bpav(?:e|es|ed|ing) the way\b
+3 | unlock the potential | \bunlock(?:s|ing)? (?:the |your |its |their )?(?:full |true )?(?:potential|power|secrets)\b
+3 | harness the power of | \bharness(?:es|ing)? the (?:full )?power of\b
+2 | foster a sense of | \bfoster(?:s|ed|ing)? (?:a sense of |a culture of )?(?:community|innovation|collaboration|growth|belonging|connection|creativity|inclusivity)\b
+2 | empower you | \bempower(?:s|ing)? (?:you|users|individuals|businesses|teams|people|organizations)\b
+2 | take it to the next level | \bto the next level\b
+1 | at the end of the day | \bat the end of the day\b
+2 | in conclusion | (?:^|[.!?]\s+)in (?:conclusion|summary)\b
+1 | ultimately, | (?:^|[.!?]\s+)ultimately,
+1 | moreover / furthermore | (?:^|[.!?]\s+)(?:moreover|furthermore|additionally),
+1 | not only ... but also | \bnot only\b[^.]{1,80}\bbut also\b
+2 | key takeaways | \bkey takeaways?\b
+2 | comprehensive guide | \b(?:comprehensive|ultimate|definitive) guide\b
+1 | a crucial / essential aspect | \b(?:crucial|essential|vital|integral|key) (?:aspect|component|element|part) of\b
+1 | navigate | \bnavigat(?:e|es|ing)\b
+2 | valuable insights | \b(?:valuable|actionable|invaluable|deep) insights?\b
+1 | the power of | \bthe (?:transformative )?power of\b
+2 | the world of | \binto the (?:fascinating |exciting |captivating )?world of\b
+1 | a wide array of | \ba (?:wide|vast|diverse|broad) (?:array|range|spectrum) of\b
+2 | stay ahead of the curve | \bstay(?:ing)? ahead of the (?:curve|game|competition)\b
+
+# --- Rhetorical templates ------------------------------------------------
+3 | it's not just X, it's Y | \b(?:is|are|was|were|it['’]s|that['’]s|this is)(?: not|n['’]t) (?:just|merely|simply) (?:about )?[^.;:!?]{1,60}?\s*[,;—–-]\s*(?:it['’]s|they['’]re|that['’]s)\b
+3 | it's not X — it's Y | \b(?:it|this|that)['’]s not (?:a |an |about )?[^.;:!?]{1,40}\s?[—–]\s?(?:it['’]s|it is)\b
+2 | The result? / The best part? | \b(?:the|and the) (?:result|best part|catch|kicker|truth|secret|answer|twist|reality|worst part|lesson)\?
+2 | And honestly? | \b(?:and )?(?:honestly|frankly|truthfully)\?
+2 | Here's the thing | \bhere['’]s the (?:thing|kicker|truth|deal|catch)\b
+2 | here's why it matters | \bhere['’]s (?:why|what) (?:it|this|that) (?:matters|means)\b
+3 | here's what nobody tells you | \bhere['’]s what (?:nobody|no one) (?:tells|talks about)\b
+3 | let that sink in | \blet that sink in\b
+2 | no fluff | \bno fluff\b
+2 | thrilled to announce | \b(?:thrilled|excited|delighted|humbled|honored) to (?:announce|share)\b
+2 | Agree? / Thoughts? | (?:^|[.!?]\s+)(?:agree|thoughts|what do you think)\?\s*$
+1 | X isn't a bug, it's a feature | \bisn['’]t a bug[,;—–-]\s*it['’]s a feature\b
+2 | more than just a | \bmore than just an?\b
+2 | the future is bright | \bthe future (?:is|looks) (?:bright|here|now|promising)\b
+2 | only time will tell | \bonly time will tell\b
+1 | a double-edged sword | \ba double-edged sword\b
+2 | one thing is clear | \bone thing is (?:clear|certain)\b
+1 | are you ready to | \bare you ready to\b
+
+# --- Terse-aphoristic register (newer models) ----------------------------
+# Less purple vocabulary, more pseudo-profound rhythm: verbless fragments,
+# anaphoric triplets, "that's the whole point" reveals, things that
+# "compound" and "evaporate".
+3 | standalone 'verbatim' | ,\s*verbatim\b|\bverbatim\s*[.:;—–]|^verbatim\b
+3 | exactly as it sits in | \bexactly as (?:it|they) (?:sits?|stands?|lives?|appears?|exists?|was written|happened|reads?)\b
+2 | one grep away | \b(?:is|are|it['’]s|they['’]re|just|always|only) (?:one|a|a single) [\w-]+ away\b
+2 | X, always. | ,\s*(?:always|every (?:single )?time|without exception|no exceptions|nothing more(?:,? nothing less)?)(?=\s*[.:;!?—–)]|\s*$)
+2 | does the remembering | \b(?:does|do|did|doing) the (?:heavy )?(?:remembering|thinking|forgetting|lifting|work of|deciding|knowing|caring)\b
+2 | heavy lifting | \bheavy lifting\b
+2 | its whole point is | \b(?:its|the|whose|our) (?:whole|entire) point (?:is|was)\b
+2 | because that's the method | \bbecause (?:that['’]s|that is|this is) (?:the|how|what)\b
+1 | Honestly, / Crucially, | (?:^|[.!?:]\s+)(?:honestly|frankly|crucially|importantly|notably|fundamentally|essentially|simply put|put simply|make no mistake|to be clear|truth be told|plot twist|spoiler(?: alert)?)[,:]
+1 | the curated map | \bcurated\b
+2 | read it cold | \b(?:read|use|pick up|start) it cold\b
+1 | — and the X. | [—–]\s*and (?:the|a|an|that|it|then)\b[^.!?—–]{0,40}[.!?]\s*$
+# "no X, no Y, no Z" is classic rhetoric (Austen uses it), "one X, one Y, one Z" is not.
+3 | one X, one Y, one Z | \bone [\w’'-]+(?: [\w’'-]+)?, one [\w’'-]+(?: [\w’'-]+)?,? (?:and |or )?one [\w’'-]+
+1 | no X, no Y, no Z | \b(no|zero|every|each) [\w’'-]+(?: [\w’'-]+)?, \1 [\w’'-]+(?: [\w’'-]+)?,? (?:and |or )?\1 [\w’'-]+
+2 | that's the loop / the point | \b(?:that['’]s|that is|this is|which is|here['’]s) (?:the|our) (?:point|loop|mechanic|mechanism|trick|game|secret|magic|unlock|move|playbook|flywheel|superpower|moat|shift|difference)\b
+3 | that's the whole point | \b(?:that['’]s|that is|this is|which is|here['’]s) the (?:whole|entire|real|core) (?:point|loop|mechanic|mechanism|trick|game|secret|idea|thing|unlock|method)\b
+2 | it compounds | \b(?:it|they|this|that|thinking|decisions?|knowledge|value|insights?|work|everything|trust|context|learning|returns|habits?|gains)\s+(?:already\s+|starts?\s+|keeps?\s+|will\s+|quietly\s+|just\s+)?compound(?:s|ing)?\b
+1 | compounding (bare) | \bcompound(?:s|ing)\s*[.,;—–]
+1 | evaporates | \bevaporat(?:e|es|ed|ing)\b
+2 | the why | \b(?:the|its|their|your|our) why\b(?! (?:is|was|are|were|did|do|does|would|should|not)\b)
+3 | X stops Y. Z starts W. | \bstops? [a-z]+ing\b[^.!?]{0,40}[.!?]\s+[^.!?]{0,40}\bstarts? [a-z]+ing\b
+# Contractions only: formal "It is" after a negation is ordinary older prose.
+3 | is not X. It's Y. | \b(?:is|are|was|were)(?: not|n['’]t) [^.!?]{1,60}\.\s+(?:It['’]s|They['’]re|That['’]s)\b
+3 | does not X. It Xs. | \b(?:does|do|did)(?: not|n['’]t) (\w+) [^.!?]{1,60}\.\s+(?:It|This|That|They) \1s?\b
+4 | No X. No Y. Just Z. | \bno [^.!?]{1,30}\.\s+no [^.!?]{1,30}\.\s+(?:just|only)\b
+3 | X is fine, Y is fine | \bis fine[,;—–]\s*[\w-]+(?: [\w-]+)? is fine\b
+2 | cognitive load down | \b[\w-]+ (?:load|cost|time|overhead|friction|noise|risk|toil|churn) (?:down|cut|halved|gone|freed)[,;.]
+2 | full stop. | \bfull stop\.
+2 | the real unlock | \bthe (?:real |big |key )?unlock\b
+2 | changes everything | \bchanges everything\b
+2 | the uncomfortable truth | \bthe (?:uncomfortable|hard|brutal|simple|quiet) truth\b
+2 | sit with that | \bsit with (?:that|this|it)\b
+2 | and that's okay | \band (?:that['’]s|that is) (?:okay|ok|fine)\b
+3 | you didn't know you needed | \byou didn['’]t know you needed\b
+1 | quietly | \bquietly\b
+1 | load-bearing | \bload-bearing\b
+1 | intensifier adverb | \b(?:genuinely|truly|deeply|incredibly|remarkably|effortlessly|meaningfully|profoundly|undeniably|unapologetically|relentlessly|radically|utterly)\b
+
+[snips]
+always | , verbatim | ,\s*verbatim(?=\s*[.:;!?—–)]|\s*$)
+always | , always | ,\s*(?:always|every (?:single )?time|without exception|no exceptions|full stop|period|for good|by design|nothing more(?:,? nothing less)?)(?=\s*[.:;!?—–)]|\s*$)
+always | , in one habit | ,\s*in one (?:habit|move|step|place|go|line|sentence|page|motion)(?=\s*[.:;!?—–)]|\s*$)
+always | , and that matters | ,\s*and (?:that|it|this) (?:matters|shows|counts|compounds)(?=\s*[.!])
+always | — and that's the point | \s*[—–]\s*(?:and )?(?:that['’]s|that is|which is) (?:the (?:whole |entire )?point|okay|fine|it)(?=\s*[.!])
+always | , exactly as it sits in … | ,?\s*exactly as (?:it|they) (?:sits?|stands?|lives?|appears?|exists?|was written|happened|reads?)(?: in [^.,;:!?—–]{1,40})?
+always | Full stop. / Let that sink in. | (?<=^|[.!?]\s+)(?:full stop|period|let that sink in|read that again|and honestly\?|honestly\?)[.!]?\s*
+sloppy | Honestly, / Crucially, | (?<=^|[.!?:]\s+)(?:honestly|frankly|crucially|importantly|notably|fundamentally|essentially|simply put|put simply|make no mistake|to be clear|truth be told|plot twist|spoiler(?: alert)?|here['’]s the thing|the truth is|let['’]s be (?:clear|honest))[,:]\s*
+sloppy | intensifier | \b(?:quietly|genuinely|truly|deeply|incredibly|remarkably|fundamentally|seamlessly|effortlessly|meaningfully|profoundly|undeniably|unapologetically|relentlessly|radically|utterly)\s+(?=[a-z])
